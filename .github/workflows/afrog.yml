@@ -1,9 +1,7 @@
 name: vuln_scan_action
 
 on:
-  repository_dispatch:
-    types:
-      - afrog
+    workflow_dispatch:
 
 jobs:
   build:
@@ -20,4 +18,5 @@ jobs:
       - name: Execute based on type
         run: |
           chmod 777 afrog
-          ls -ll
+          ./afrog -P mypoc -s CVE-2024-4956 -T url.txt -ja rs.json
+          cat rs.json
