@@ -19,4 +19,6 @@ jobs:
         run: |
           chmod 777 afrog
           ./afrog -duc -s CVE-2024-4956 -T url.txt -ja rs.json
+      - name: Validate rs.json
+        run: |
           cat rs.json
