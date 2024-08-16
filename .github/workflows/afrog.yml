@@ -2,7 +2,6 @@ name: vuln_scan_action
 
 on:
     workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,7 +20,13 @@ jobs:
           ./afrog -duc -doh -s CVE-2024-4956 -T url.txt -ja rs.json
       - name: Validate rs.json
         run: |
-          ps aux
           sync  # 强制同步所有挂起的写入操作
           ls -lh rs.json
+          jq . rs.json
           cat rs.json
+          
+      - name: Upload rs.json as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: rs-json
+          path: rs.json
