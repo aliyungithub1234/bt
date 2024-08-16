@@ -23,10 +23,9 @@ jobs:
           sync  # 强制同步所有挂起的写入操作
           ls -lh rs.json
           jq . rs.json
-          cat rs.json
           
-      - name: Upload rs.json as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: rs-json
-          path: rs.json
+      - name: Send JSON to Server
+        run: |
+          curl -X POST http://152.32.251.3:7777/vuln_scan_callback \
+          -H "Content-Type: application/json" \
+          --data-binary @rs.json
