@@ -1,0 +1,23 @@
+name: vuln_scan_action
+
+on:
+  repository_dispatch:
+    types:
+      - afrog
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Use File from Repository
+        run: |
+          unzip afrog.zip
+          unzip mp.zip
+
+      - name: Execute based on type
+        run: |
+          chmod 777 afrog
+          ls -ll
