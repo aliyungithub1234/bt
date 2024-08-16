@@ -18,7 +18,10 @@ jobs:
       - name: Execute based on type
         run: |
           chmod 777 afrog
-          ./afrog -duc -s CVE-2024-4956 -T url.txt -ja rs.json
+          ./afrog -duc -doh -s CVE-2024-4956 -T url.txt -ja rs.json
       - name: Validate rs.json
         run: |
+          ps aux
+          sync  # 强制同步所有挂起的写入操作
+          ls -lh rs.json
           cat rs.json
