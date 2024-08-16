@@ -13,10 +13,10 @@ jobs:
       - name: Use File from Repository
         run: |
           unzip afrog.zip
-          unzip mp.zip -d mypoc
+          unzip mp.zip -d /home/runner/afrog-pocs
 
       - name: Execute based on type
         run: |
           chmod 777 afrog
-          ./afrog -duc -P mypoc -s CVE-2024-4956 -T url.txt -ja rs.json
+          ./afrog -duc -s CVE-2024-4956 -T url.txt -ja rs.json
           cat rs.json
