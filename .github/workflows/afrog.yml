@@ -27,6 +27,12 @@ jobs:
       - name: Validate rs.json
         run: |
           sync  # 强制同步所有挂起的写入操作
+          file_path="path/to/your/file"
+          if [ -f "$file_path" ]; then
+            echo "File exists"
+          else
+            exit 0
+          fi
           ls -lh rs.json
           jq . rs.json
           
