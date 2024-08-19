@@ -1,7 +1,10 @@
 name: vuln_scan_action
 
 on:
-    workflow_dispatch:
+  repository_dispatch:
+    types:
+      - afrog
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,11 +16,14 @@ jobs:
         run: |
           unzip afrog.zip
           unzip mp.zip -d /home/runner/afrog-pocs
-
+          
+      - name: get targets
+        run: curl -o url.txt ${{ github.event.client_payload.downloadurl }}
+        
       - name: Execute based on type
         run: |
           chmod 777 afrog
-          ./afrog -duc -doh -s CVE-2024-4956 -T url.txt -ja rs.json
+          ./afrog -duc -doh -s ${{ github.event.client_payload.template_id }} -T url.txt -ja rs.json
       - name: Validate rs.json
         run: |
           sync  # 强制同步所有挂起的写入操作
@@ -26,6 +32,6 @@ jobs:
           
       - name: Send JSON to Server
         run: |
-          curl -X POST http://152.32.251.3:7777/vuln_scan_callback \
+          curl -X POST ${{ github.event.client_payload.webhook_url }} \
           -H "Content-Type: application/json" \
           --data-binary @rs.json
